@@ -12,6 +12,17 @@ Added `merge_parquet_samples.py` to merge parquet part-files for each sample fol
   - `y/yes`: overwrite.
   - `n/no` (or Enter): stop the program.
 
+
+### Dependency
+This script requires `pyarrow`:
+```bash
+pip install pyarrow
+```
+(Or on many HPC environments:)
+```bash
+conda install -c conda-forge pyarrow
+```
+
 ### Example
 ```bash
 python merge_parquet_samples.py \

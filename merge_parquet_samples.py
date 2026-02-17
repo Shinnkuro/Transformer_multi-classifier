@@ -13,6 +13,22 @@ import sys
 from pathlib import Path
 
 
+def ensure_pyarrow_installed() -> None:
+    """Validate pyarrow dependency and print actionable guidance when missing."""
+    try:
+        import pyarrow  # noqa: F401
+    except ModuleNotFoundError:
+        print(
+            "Error: missing required dependency 'pyarrow'.\n"
+            "Please install it before running this script, for example:\n"
+            "  pip install pyarrow\n"
+            "or (recommended on clusters with conda/mamba):\n"
+            "  conda install -c conda-forge pyarrow",
+            file=sys.stderr,
+        )
+        raise SystemExit(2)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description=(
@@ -88,6 +104,7 @@ def merge_one_sample(sample_dir: Path, output_file: Path, pattern: str) -> None:
 
 def main() -> int:
     args = parse_args()
+    ensure_pyarrow_installed()
 
     samples_path = args.samples_path.expanduser().resolve()
     output_path = args.output_path.expanduser().resolve()
